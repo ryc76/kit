@@ -7,7 +7,7 @@ const s = JSON.stringify;
 /**
  *
  * @param {{
- *   request: import('types/endpoint').ServerRequest;
+ *   request: import('types/hooks').ServerRequest;
  *   options: import('types/internal').SSRRenderOptions;
  *   state: import('types/internal').SSRRenderState;
  *   route: import('types/internal').SSRPage;
@@ -99,7 +99,8 @@ export async function load_node({
 
 				if (/^[a-zA-Z]+:/.test(url)) {
 					// external fetch
-					response = await fetch(url, /** @type {RequestInit} */ (opts));
+					const request = new Request(url, /** @type {RequestInit} */ (opts));
+					response = await options.hooks.serverFetch.call(null, request);
 				} else {
 					const [path, search] = url.split('?');
 

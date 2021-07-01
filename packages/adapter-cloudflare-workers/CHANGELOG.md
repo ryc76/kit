@@ -1,5 +1,41 @@
 # @sveltejs/adapter-cloudflare-workers
 
+## 1.0.0-next.12
+
+### Patch Changes
+
+- c51ab7d: Upgrade esbuild to ^0.12.5
+
+## 1.0.0-next.11
+
+### Patch Changes
+
+- edc307d: Remove peerDependencies due to pnpm bug
+- 2636e68: Attempt to fix peerDependencies specification
+
+## 1.0.0-next.10
+
+### Patch Changes
+
+- 028abd9: Pass validated svelte config to adapter adapt function
+- Updated dependencies [6372690]
+- Updated dependencies [c3d36a3]
+- Updated dependencies [bf77940]
+- Updated dependencies [2172469]
+- Updated dependencies [028abd9]
+  - @sveltejs/kit@1.0.0-next.110
+
+## 1.0.0-next.9
+
+### Patch Changes
+
+- 71e293d: change toml parser to support dotted keys and other language features added after the TOML v0.4.0 spec
+- dca4946: Make kit a peerDependency of the adapters
+- Updated dependencies [261ee1c]
+- Updated dependencies [ec156c6]
+- Updated dependencies [586785d]
+  - @sveltejs/kit@1.0.0-next.109
+
 ## 1.0.0-next.8
 
 ### Patch Changes

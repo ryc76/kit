@@ -16,13 +16,13 @@ function clean_html(html) {
 
 /** @param {string} attrs */
 function get_href(attrs) {
-	const match = /href\s*=\s*(?:"(.*?)"|'(.*?)'|([^\s>]*))/.exec(attrs);
+	const match = /([\s'"]|^)href\s*=\s*(?:"(.*?)"|'(.*?)'|([^\s>]*))/.exec(attrs);
 	return match && (match[1] || match[2] || match[3]);
 }
 
 /** @param {string} attrs */
 function get_src(attrs) {
-	const match = /src\s*=\s*(?:"(.*?)"|'(.*?)'|([^\s>]*))/.exec(attrs);
+	const match = /([\s'"]|^)src\s*=\s*(?:"(.*?)"|'(.*?)'|([^\s>]*))/.exec(attrs);
 	return match && (match[1] || match[2] || match[3]);
 }
 
@@ -30,7 +30,7 @@ function get_src(attrs) {
 function get_srcset_urls(attrs) {
 	const results = [];
 	// Note that the srcset allows any ASCII whitespace, including newlines.
-	const match = /srcset\s*=\s*(?:"(.*?)"|'(.*?)'|([^\s>]*))/s.exec(attrs);
+	const match = /([\s'"]|^)srcset\s*=\s*(?:"(.*?)"|'(.*?)'|([^\s>]*))/s.exec(attrs);
 	if (match) {
 		const attr_content = match[1] || match[2] || match[3];
 		// Parse the content of the srcset attribute.
@@ -92,9 +92,24 @@ export async function prerender({ cwd, out, log, config, build_data, fallback, a
 
 	/**
 	 * @param {string} path
+	 */
+	function normalize(path) {
+		if (config.kit.trailingSlash === 'always') {
+			return path.endsWith('/') ? path : `${path}/`;
+		} else if (config.kit.trailingSlash === 'never') {
+			return !path.endsWith('/') || path === '/' ? path : path.slice(0, -1);
+		}
+
+		return path;
+	}
+
+	/**
+	 * @param {string} path
 	 * @param {string} parent
 	 */
 	async function visit(path, parent) {
+		path = normalize(path);
+
 		if (seen.has(path)) return;
 		seen.add(path);
 

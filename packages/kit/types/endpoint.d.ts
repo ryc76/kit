@@ -1,16 +1,5 @@
-import { Headers, ParameterizedBody } from './helper';
-
-export type ServerRequest<Locals = Record<string, any>, Body = unknown> = {
-	method: string;
-	host: string;
-	headers: Headers;
-	path: string;
-	params: Record<string, string>;
-	query: URLSearchParams;
-	rawBody: string | Uint8Array;
-	body: ParameterizedBody<Body>;
-	locals: Locals;
-};
+import { ServerRequest } from './hooks';
+import { Headers, MaybePromise } from './helper';
 
 type JSONValue =
 	| string
@@ -21,12 +10,16 @@ type JSONValue =
 	| JSONValue[]
 	| { [key: string]: JSONValue };
 
-export type EndpointOutput = {
+type DefaultBody = JSONValue | Uint8Array;
+
+export type EndpointOutput<Body extends DefaultBody = DefaultBody> = {
 	status?: number;
 	headers?: Partial<Headers>;
-	body?: string | Uint8Array | JSONValue;
+	body?: Body;
 };
 
-export type RequestHandler<Locals = Record<string, any>, Body = unknown> = (
-	request: ServerRequest<Locals, Body>
-) => void | EndpointOutput | Promise<EndpointOutput>;
+export type RequestHandler<
+	Locals = Record<string, any>,
+	Input = unknown,
+	Output extends DefaultBody = DefaultBody
+> = (request: ServerRequest<Locals, Input>) => MaybePromise<void | EndpointOutput<Output>>;

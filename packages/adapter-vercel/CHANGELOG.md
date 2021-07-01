@@ -1,5 +1,41 @@
 # @sveltejs/adapter-vercel
 
+## 1.0.0-next.22
+
+### Patch Changes
+
+- c51ab7d: Upgrade esbuild to ^0.12.5
+
+## 1.0.0-next.21
+
+### Patch Changes
+
+- edc307d: Remove peerDependencies due to pnpm bug
+- 2636e68: Attempt to fix peerDependencies specification
+
+## 1.0.0-next.20
+
+### Patch Changes
+
+- c3d36a3: ensure `content-length` limit respected; handle `getRawBody` error(s)
+- 028abd9: Pass validated svelte config to adapter adapt function
+- Updated dependencies [6372690]
+- Updated dependencies [c3d36a3]
+- Updated dependencies [bf77940]
+- Updated dependencies [2172469]
+- Updated dependencies [028abd9]
+  - @sveltejs/kit@1.0.0-next.110
+
+## 1.0.0-next.19
+
+### Patch Changes
+
+- dca4946: Make kit a peerDependency of the adapters
+- Updated dependencies [261ee1c]
+- Updated dependencies [ec156c6]
+- Updated dependencies [586785d]
+  - @sveltejs/kit@1.0.0-next.109
+
 ## 1.0.0-next.18
 
 ### Patch Changes

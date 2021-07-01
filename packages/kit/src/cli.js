@@ -2,7 +2,7 @@ import { existsSync } from 'fs';
 import sade from 'sade';
 import colors from 'kleur';
 import * as ports from 'port-authority';
-import { load_config } from './core/load_config/index.js';
+import { load_config } from './core/config/index.js';
 import { networkInterfaces, release } from 'os';
 
 async function get_config() {
@@ -176,6 +176,22 @@ prog
 					'"svelte-kit preview" will now preview your production build locally. Note: it is not intended for production use'
 				)
 		);
+	});
+
+prog
+	.command('package')
+	.describe('Create a package')
+	.option('-d, --dir', 'Destination directory', 'package')
+	.action(async () => {
+		const config = await get_config();
+
+		const { make_package } = await import('./core/make_package/index.js');
+
+		try {
+			await make_package(config);
+		} catch (error) {
+			handle_error(error);
+		}
 	});
 
 prog.parse(process.argv, { unknown: (arg) => `Unknown option: ${arg}` });

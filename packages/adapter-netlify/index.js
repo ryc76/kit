@@ -2,14 +2,14 @@ import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
 import esbuild from 'esbuild';
-import toml from 'toml';
+import toml from '@iarna/toml';
 
 export default function () {
 	/** @type {import('@sveltejs/kit').Adapter} */
 	const adapter = {
 		name: '@sveltejs/adapter-netlify',
 
-		async adapt(utils) {
+		async adapt({ utils }) {
 			const { publish, functions } = validate_config().build;
 
 			utils.rimraf(publish);
@@ -39,6 +39,7 @@ export default function () {
 			utils.copy_client_files(publish);
 
 			utils.log.minor('Writing redirects...');
+			utils.copy('_redirects', `${publish}/_redirects`);
 			appendFileSync(`${publish}/_redirects`, '\n\n/* /.netlify/functions/render 200');
 		}
 	};
